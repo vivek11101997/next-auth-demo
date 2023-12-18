@@ -13,9 +13,9 @@ export default NextAuth({
     
 
     CredentialsProvider({
-  
+
       async authorize(credentials) {
-        const client = connectToDatabase();
+        const client = await connectToDatabase();
         const userCollection = await client.db().collection("users");
         const user=await userCollection.findOne({ email: credentials.email })
         
@@ -25,7 +25,7 @@ export default NextAuth({
         }
 
         const isvalid = await verifyPassword(credentials.password, user.password)
-        i
+
         if (!isvalid)
         {
           throw new Error("Could not log you in !");
